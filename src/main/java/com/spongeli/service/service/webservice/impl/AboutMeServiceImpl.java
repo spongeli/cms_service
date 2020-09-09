@@ -1,4 +1,4 @@
-package com.spongeli.service.service.webservice.service;
+package com.spongeli.service.service.webservice.impl;
 
 import com.spongeli.service.common.system.WebBaseService;
 import com.spongeli.service.pojo.dao.CmsAboutMeMapper;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,7 +20,7 @@ public class AboutMeServiceImpl extends WebBaseService implements AboutMeService
     @Override
     public Object aboutMe() {
         CmsAboutMeExample example = new CmsAboutMeExample();
-        List<CmsAboutMe> cmsAboutMes = mapper.selectByExample(example);
+        List<CmsAboutMe> cmsAboutMes = mapper.selectByExampleWithBLOBs(example);
         if (CollectionUtils.isEmpty(cmsAboutMes)) {
             return new Object();
         }

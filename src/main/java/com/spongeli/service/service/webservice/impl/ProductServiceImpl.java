@@ -1,4 +1,4 @@
-package com.spongeli.service.service.webservice.service;
+package com.spongeli.service.service.webservice.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.spongeli.service.common.cont.SystemConstant;

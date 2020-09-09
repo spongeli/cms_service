@@ -3,6 +3,24 @@
 <mapper namespace="com.spongeli.service.pojo.dao.CmsRecruitMapper">
   <resultMap id="BaseResultMap" type="com.spongeli.service.pojo.model.CmsRecruit">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="sex_require" jdbcType="VARCHAR" property="sexRequire" />
+    <result column="age_require" jdbcType="VARCHAR" property="ageRequire" />
+    <result column="salary" jdbcType="VARCHAR" property="salary" />
+    <result column="language_require" jdbcType="VARCHAR" property="languageRequire" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="work_adderss" jdbcType="VARCHAR" property="workAdderss" />
+    <result column="validity" jdbcType="DATE" property="validity" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.spongeli.service.pojo.model.CmsRecruit">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -63,8 +81,29 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id
+    id, position_name, sex_require, age_require, salary, language_require, `number`, 
+    work_adderss, validity, education, `status`, remark, create_by, create_time, update_by, 
+    update_time
   </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.spongeli.service.pojo.model.CmsRecruitExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cms_recruit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.spongeli.service.pojo.model.CmsRecruitExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -78,6 +117,14 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cms_recruit
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cms_recruit
@@ -93,16 +140,124 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cms_recruit ()
-    values ()
+    insert into cms_recruit (position_name, sex_require, age_require, 
+      salary, language_require, `number`, 
+      work_adderss, validity, education, 
+      `status`, remark, create_by, 
+      create_time, update_by, update_time, 
+      content)
+    values (#{positionName,jdbcType=VARCHAR}, #{sexRequire,jdbcType=VARCHAR}, #{ageRequire,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=VARCHAR}, #{languageRequire,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{workAdderss,jdbcType=VARCHAR}, #{validity,jdbcType=DATE}, #{education,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.spongeli.service.pojo.model.CmsRecruit">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cms_recruit
-    <trim prefix="(" suffix=")" suffixOverrides="," />
-    <trim prefix="values (" suffix=")" suffixOverrides="," />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="positionName != null">
+        position_name,
+      </if>
+      <if test="sexRequire != null">
+        sex_require,
+      </if>
+      <if test="ageRequire != null">
+        age_require,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+      <if test="languageRequire != null">
+        language_require,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="workAdderss != null">
+        work_adderss,
+      </if>
+      <if test="validity != null">
+        validity,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="positionName != null">
+        #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="sexRequire != null">
+        #{sexRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="ageRequire != null">
+        #{ageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="languageRequire != null">
+        #{languageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="workAdderss != null">
+        #{workAdderss,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null">
+        #{validity,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
   </insert>
   <select id="countByExample" parameterType="com.spongeli.service.pojo.model.CmsRecruitExample" resultType="java.lang.Long">
     select count(*) from cms_recruit
@@ -116,16 +271,195 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.positionName != null">
+        position_name = #{record.positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sexRequire != null">
+        sex_require = #{record.sexRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ageRequire != null">
+        age_require = #{record.ageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salary != null">
+        salary = #{record.salary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.languageRequire != null">
+        language_require = #{record.languageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        `number` = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.workAdderss != null">
+        work_adderss = #{record.workAdderss,jdbcType=VARCHAR},
+      </if>
+      <if test="record.validity != null">
+        validity = #{record.validity,jdbcType=DATE},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cms_recruit
+    set id = #{record.id,jdbcType=INTEGER},
+      position_name = #{record.positionName,jdbcType=VARCHAR},
+      sex_require = #{record.sexRequire,jdbcType=VARCHAR},
+      age_require = #{record.ageRequire,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=VARCHAR},
+      language_require = #{record.languageRequire,jdbcType=VARCHAR},
+      `number` = #{record.number,jdbcType=INTEGER},
+      work_adderss = #{record.workAdderss,jdbcType=VARCHAR},
+      validity = #{record.validity,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update cms_recruit
-    set id = #{record.id,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+      position_name = #{record.positionName,jdbcType=VARCHAR},
+      sex_require = #{record.sexRequire,jdbcType=VARCHAR},
+      age_require = #{record.ageRequire,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=VARCHAR},
+      language_require = #{record.languageRequire,jdbcType=VARCHAR},
+      `number` = #{record.number,jdbcType=INTEGER},
+      work_adderss = #{record.workAdderss,jdbcType=VARCHAR},
+      validity = #{record.validity,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spongeli.service.pojo.model.CmsRecruit">
+    update cms_recruit
+    <set>
+      <if test="positionName != null">
+        position_name = #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="sexRequire != null">
+        sex_require = #{sexRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="ageRequire != null">
+        age_require = #{ageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=VARCHAR},
+      </if>
+      <if test="languageRequire != null">
+        language_require = #{languageRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="workAdderss != null">
+        work_adderss = #{workAdderss,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null">
+        validity = #{validity,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.spongeli.service.pojo.model.CmsRecruit">
+    update cms_recruit
+    set position_name = #{positionName,jdbcType=VARCHAR},
+      sex_require = #{sexRequire,jdbcType=VARCHAR},
+      age_require = #{ageRequire,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      language_require = #{languageRequire,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=INTEGER},
+      work_adderss = #{workAdderss,jdbcType=VARCHAR},
+      validity = #{validity,jdbcType=DATE},
+      education = #{education,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spongeli.service.pojo.model.CmsRecruit">
+    update cms_recruit
+    set position_name = #{positionName,jdbcType=VARCHAR},
+      sex_require = #{sexRequire,jdbcType=VARCHAR},
+      age_require = #{ageRequire,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=VARCHAR},
+      language_require = #{languageRequire,jdbcType=VARCHAR},
+      `number` = #{number,jdbcType=INTEGER},
+      work_adderss = #{workAdderss,jdbcType=VARCHAR},
+      validity = #{validity,jdbcType=DATE},
+      education = #{education,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

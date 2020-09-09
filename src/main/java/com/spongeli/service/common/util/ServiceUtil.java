@@ -1,10 +1,15 @@
 package com.spongeli.service.common.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.spongeli.service.utils.HttpClientUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class ServiceUtil {
+
+    // 获取请求ip
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = null;
         try {

@@ -16,9 +16,21 @@ public interface CmsRecruitMapper {
 
     int insertSelective(CmsRecruit record);
 
+    List<CmsRecruit> selectByExampleWithBLOBs(CmsRecruitExample example);
+
     List<CmsRecruit> selectByExample(CmsRecruitExample example);
+
+    CmsRecruit selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") CmsRecruit record, @Param("example") CmsRecruitExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") CmsRecruit record, @Param("example") CmsRecruitExample example);
+
     int updateByExample(@Param("record") CmsRecruit record, @Param("example") CmsRecruitExample example);
+
+    int updateByPrimaryKeySelective(CmsRecruit record);
+
+    int updateByPrimaryKeyWithBLOBs(CmsRecruit record);
+
+    int updateByPrimaryKey(CmsRecruit record);
 }
